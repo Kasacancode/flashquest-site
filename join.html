@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="theme.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Battle - FlashQuest</title>
+  <meta name="description" content="Join a FlashQuest battle room.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .join-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; }
+    .join-card { max-width: 400px; width: 100%; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 40px 32px; backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); }
+    .join-icon { font-size: 48px; margin-bottom: 16px; }
+    .join-title { font-size: 24px; font-weight: 800; color: var(--heading); letter-spacing: -0.5px; margin-bottom: 8px; }
+    .join-subtitle { font-size: 15px; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.5; }
+    .room-code-display { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #6366F1, #7C3AED); color: #fff; font-size: 32px; font-weight: 800; letter-spacing: 4px; padding: 14px 32px; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(99,102,241,0.3); }
+    .join-steps { text-align: left; margin-bottom: 28px; }
+    .join-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .join-step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-bg); color: var(--accent); font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .join-step-text { font-size: 14px; color: var(--text-secondary); line-height: 1.5; padding-top: 4px; }
+    .join-step-text strong { color: var(--heading); }
+    .join-cta { display: inline-flex; align-items: center; justify-content: center; width: 100%; height: 50px; background: #6366F1; color: #fff; font-size: 16px; font-weight: 700; border-radius: 14px; text-decoration: none; transition: transform 0.18s ease, box-shadow 0.18s ease; }
+    .join-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.3); color: #fff; }
+    .join-footer { margin-top: 20px; font-size: 12px; color: var(--text-tertiary); }
+    .join-footer a { color: var(--accent); font-weight: 600; }
+    .no-code { color: var(--text-secondary); font-size: 14px; }
+  </style>
+</head>
+<body class="join-page">
+
+  <div class="join-card" id="joinCard">
+    <div class="join-icon">&#x2694;&#xFE0F;</div>
+    <h1 class="join-title">Join Battle</h1>
+    <p class="join-subtitle">You've been invited to a FlashQuest battle!</p>
+
+    <div class="room-code-display" id="roomCode"></div>
+
+    <div class="join-steps">
+      <div class="join-step">
+        <div class="join-step-num">1</div>
+        <div class="join-step-text">Open <strong>FlashQuest</strong> on your phone</div>
+      </div>
+      <div class="join-step">
+        <div class="join-step-num">2</div>
+        <div class="join-step-text">Tap <strong>Arena</strong>, then <strong>Join Battle</strong></div>
+      </div>
+      <div class="join-step">
+        <div class="join-step-num">3</div>
+        <div class="join-step-text">Enter the room code above</div>
+      </div>
+    </div>
+
+    <a href="#" class="join-cta" id="openApp">Open FlashQuest</a>
+  </div>
+
+  <p class="join-footer">
+    Don't have the app? <a href="/">Download FlashQuest</a>
+  </p>
+
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get('code');
+
+      if (!code) {
+        var path = window.location.pathname;
+        var match = path.match(/\/join\/?([A-Za-z0-9]+)/);
+        if (match) code = match[1];
+      }
+
+      var codeEl = document.getElementById('roomCode');
+      var ctaEl = document.getElementById('openApp');
+
+      if (code) {
+        code = code.toUpperCase().slice(0, 8);
+        codeEl.textContent = code;
+        var deepLink = 'flashquest://arena/join?code=' + code;
+        ctaEl.href = deepLink;
+
+        setTimeout(function() {
+          window.location.href = deepLink;
+        }, 300);
+      } else {
+        codeEl.textContent = '----';
+        ctaEl.style.display = 'none';
+      }
+    })();
+
+    function toggleTheme() {
+      var t = document.documentElement.getAttribute('data-theme');
+      var n = t === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      localStorage.setItem('fq-theme', n);
+    }
+  </script>
+
+</body>
+</html>
