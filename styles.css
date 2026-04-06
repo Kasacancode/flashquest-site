@@ -1,0 +1,86 @@
+/* FlashQuest Site — Shared Design System */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#08071A;color:#EEEDF5;line-height:1.65;
+  min-height:100vh;display:flex;flex-direction:column;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,h5,h6{font-family:'Outfit',sans-serif;line-height:1.15;letter-spacing:-.02em}
+a{color:#A78BFA;text-decoration:none;transition:color .2s}
+a:hover{color:#C4B5FD}
+img{display:block;max-width:100%}
+.wrap{max-width:800px;margin:0 auto;padding:0 28px}
+
+/* ── Nav ── */
+.nav{position:sticky;top:0;z-index:100;background:rgba(8,7,26,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid #2A2850}
+.nav-inner{max-width:800px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.3rem;color:#EEEDF5;display:flex;align-items:center;gap:10px}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#7C3AED,#6366F1);display:grid;place-items:center}
+.logo-mark svg{width:16px;height:16px}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-r a{color:#A09CB5;font-size:.85rem;font-weight:500;padding:7px 14px;border-radius:8px;transition:all .2s}
+.nav-r a:hover,.nav-r a.active{color:#EEEDF5;background:rgba(255,255,255,.06)}
+.nav-dl{background:#7C3AED!important;color:#fff!important;border-radius:100px!important;padding:7px 20px!important;font-weight:600!important;font-size:.82rem!important}
+.nav-dl:hover{transform:translateY(-1px);box-shadow:0 4px 16px #7C3AED50}
+
+/* ── Page Header ── */
+.page-head{background:linear-gradient(145deg,#12103A 0%,#1E1750 40%,#2D1B69 70%,#3B2280 100%);padding:48px 0 56px;position:relative;overflow:hidden}
+.page-head::before{content:'';position:absolute;top:-80px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,#7C3AED20,transparent 70%);pointer-events:none}
+.page-head h1{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;color:#fff;margin-bottom:6px}
+.page-head p{color:rgba(255,255,255,.7);font-size:.95rem;font-weight:400}
+
+/* ── Main Content ── */
+main{flex:1;padding:0 0 64px}
+.content-card{
+  background:rgba(20,19,46,.65);border:1px solid #2A2850;
+  border-radius:20px;padding:40px 36px;margin-top:-28px;
+  position:relative;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+
+/* ── Legal Pages ── */
+.legal h2{font-size:1.2rem;font-weight:700;color:#EEEDF5;margin-top:36px;margin-bottom:12px}
+.legal h2:first-of-type{margin-top:24px}
+.legal h3{font-size:1rem;font-weight:600;color:#A09CB5;margin-top:24px;margin-bottom:8px}
+.legal p{color:#A09CB5;font-size:.93rem;line-height:1.75;margin-bottom:14px}
+.legal ul{margin:0 0 16px 20px;color:#A09CB5;font-size:.93rem;line-height:1.75}
+.legal li{margin-bottom:5px}
+.legal a{color:#A78BFA;font-weight:600}
+.legal a:hover{color:#C4B5FD}
+.effective-date{font-size:.75rem;font-weight:700;color:#6B6889;text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
+
+/* ── Support Page ── */
+.support-block{margin-bottom:32px}
+.support-block:last-child{margin-bottom:0}
+.support-block h2{font-size:1.15rem;font-weight:700;color:#EEEDF5;margin-bottom:10px}
+.support-block p{color:#A09CB5;font-size:.93rem;line-height:1.7;margin-bottom:12px}
+.support-block ul{margin:0 0 8px 20px;color:#A09CB5;font-size:.93rem;line-height:1.75}
+.support-block li{margin-bottom:4px}
+.email-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border-radius:12px;
+  background:#7C3AED14;border:1px solid #7C3AED30;
+  color:#A78BFA;font-weight:600;font-size:.9rem;
+  transition:all .25s;
+}
+.email-pill:hover{background:#7C3AED20;border-color:#7C3AED50;color:#C4B5FD;transform:translateY(-1px)}
+
+/* ── Footer ── */
+.footer{border-top:1px solid #2A2850;padding:32px 0 28px;text-align:center;margin-top:auto}
+.footer-links{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.footer-links a{color:#6B6889;font-size:.82rem;font-weight:500;transition:color .2s}
+.footer-links a:hover{color:#A09CB5}
+.footer-copy{color:#6B6889;font-size:.76rem}
+
+/* ── Scroll Reveal ── */
+[data-r]{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+[data-r].in{opacity:1;transform:translateY(0)}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .nav-r a:not(.nav-dl){display:none}
+  .content-card{padding:28px 22px;margin-top:-20px;border-radius:16px}
+  .page-head{padding:36px 0 44px}
+  .page-head h1{font-size:1.6rem}
+}
