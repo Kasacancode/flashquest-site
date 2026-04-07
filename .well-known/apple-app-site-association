@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "3MK97KD8UQ.net.flashquest.app",
+        "paths": [
+          "/join/*",
+          "/join.html*"
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "3MK97KD8UQ.net.flashquest.app"
+    ]
+  }
+}
