@@ -5,6 +5,8 @@
       {
         "appID": "3MK97KD8UQ.net.flashquest.app",
         "paths": [
+          "/r/*",
+          "/r.html*",
           "/join/*",
           "/join.html*"
         ]
