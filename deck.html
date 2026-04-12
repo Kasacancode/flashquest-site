@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlashQuest Deck</title>
+<meta name="theme-color" content="#08071A">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="Check out this deck on FlashQuest">
+<meta property="og:description" content="AI-powered flashcards with spaced repetition, quizzes, and multiplayer battles.">
+<meta property="og:url" content="https://flashquest.net/deck.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://flashquest.net/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Check out this deck on FlashQuest">
+<meta name="twitter:description" content="AI-powered flashcards with spaced repetition, quizzes, and multiplayer battles.">
+<meta name="twitter:image" content="https://flashquest.net/images/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'DM Sans',-apple-system,sans-serif;
+  background:#08071A;color:#EEEDF5;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:24px;text-align:center;
+  -webkit-font-smoothing:antialiased;
+  position:relative;overflow:hidden;
+}
+h1,h2,h3{font-family:'Outfit',sans-serif;letter-spacing:-.02em}
+body::before{
+  content:'';position:absolute;top:-150px;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,#6366F115,transparent 70%);
+  pointer-events:none;
+}
+.card{
+  max-width:420px;width:100%;
+  background:rgba(20,19,46,.7);border:1px solid #2A2850;
+  border-radius:28px;padding:44px 36px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  position:relative;z-index:1;
+  animation:cardIn .6s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#818CF8;margin-bottom:16px}
+.title{font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;line-height:1.2}
+.meta{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:6px}
+.meta strong{color:rgba(255,255,255,.75);font-weight:600}
+.description{font-size:14px;color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:16px;text-align:left}
+.stats-row{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:20px}
+.category-pill{
+  display:inline-block;font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:999px;
+  background:rgba(99,102,241,.15);color:#A5B4FC;
+  margin-left:6px;vertical-align:middle;
+}
+.preview-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px;text-align:left}
+.sample-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.sample-card{
+  padding:12px 14px;border-radius:12px;text-align:left;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+}
+.sample-q{font-size:13px;font-weight:600;color:#EEEDF5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0}
+.sample-a{font-size:13px;color:rgba(255,255,255,.45);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:4px 0 0}
+.download-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:16px;border-radius:16px;
+  background:#7C3AED;color:#fff;font-weight:700;font-size:16px;
+  text-decoration:none;margin-bottom:12px;
+  font-family:'DM Sans',sans-serif;transition:all .15s;
+}
+.download-btn:hover{background:#6D28D9}
+.open-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;padding:14px;border-radius:14px;
+  background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);
+  color:#A5B4FC;font-weight:600;font-size:15px;
+  text-decoration:none;
+  font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;
+}
+.open-btn:hover{background:rgba(99,102,241,.18)}
+.hint{font-size:13px;color:rgba(255,255,255,.3);line-height:1.5;margin-top:20px}
+.spinner{
+  width:32px;height:32px;margin:24px auto 16px;
+  border:3px solid rgba(255,255,255,.08);border-top-color:#818CF8;
+  border-radius:50%;animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-emoji{font-size:48px;margin-bottom:14px}
+.hidden{display:none}
+@media(max-width:480px){
+  .card{padding:36px 24px;border-radius:22px}
+  .title{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Loading state (shown initially) -->
+  <div id="loadingState">
+    <div class="eyebrow">FlashQuest Community</div>
+    <div class="spinner"></div>
+    <p class="meta">Loading deck preview…</p>
+  </div>
+
+  <!-- Deck preview (shown after successful fetch) -->
+  <div id="deckState" class="hidden">
+    <div class="eyebrow">FlashQuest Community</div>
+    <h1 class="title" id="deckName"></h1>
+    <p class="meta"><span id="deckMeta"></span><span class="category-pill" id="deckCategory"></span></p>
+    <p class="description hidden" id="deckDescription"></p>
+    <p class="stats-row" id="deckStats"></p>
+
+    <div id="sampleSection" class="hidden">
+      <p class="preview-label">Preview</p>
+      <div class="sample-cards" id="sampleCards"></div>
+    </div>
+
+    <a class="open-btn" id="openBtn" href="#">Open in FlashQuest</a>
+    <div style="height:12px"></div>
+    <a class="download-btn" id="downloadBtn" href="https://apps.apple.com/app/flashquest-ai-flashcards/id6760952587">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download FlashQuest (Free)
+    </a>
+    <p class="hint">Free on iOS and Android</p>
+  </div>
+
+  <!-- Error state -->
+  <div id="errorState" class="hidden">
+    <div class="error-emoji">📚</div>
+    <h1 class="title">Deck Not Found</h1>
+    <p class="meta" style="margin-bottom:24px">This deck may have been removed or the link is invalid.</p>
+    <a class="download-btn" href="https://apps.apple.com/app/flashquest-ai-flashcards/id6760952587">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download FlashQuest (Free)
+    </a>
+  </div>
+</div>
+
+<script>
+(function() {
+  var SUPABASE_URL = 'https://jzmijoxkcunyjkdpohvj.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_VMGcr1fDD4rl7lP8VnYwEg___4uGMLP';
+
+  var params = new URLSearchParams(window.location.search);
+  var deckId = (params.get('id') || '').trim();
+
+  if (!deckId) {
+    showError();
+    return;
+  }
+
+  var deepLink = 'flashquest://explore?deckId=' + encodeURIComponent(deckId);
+
+  // Attempt to open app immediately
+  setTimeout(function() {
+    window.location.href = deepLink;
+  }, 200);
+
+  // Fetch deck preview
+  var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  var timeoutId = setTimeout(function() {
+    if (controller) controller.abort();
+    showError();
+  }, 6000);
+
+  fetch(SUPABASE_URL + '/rest/v1/rpc/get_deck_preview', {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ deck_id: deckId }),
+    signal: controller ? controller.signal : undefined
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    clearTimeout(timeoutId);
+    if (!data || data.error) {
+      showError();
+      return;
+    }
+    showDeck(data, deepLink);
+  })
+  .catch(function() {
+    clearTimeout(timeoutId);
+    showError();
+  });
+
+  function showDeck(d, link) {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('deckState').classList.remove('hidden');
+
+    document.getElementById('deckName').textContent = d.name || 'Untitled Deck';
+    document.getElementById('deckMeta').textContent = (d.card_count || 0) + ' cards · by ' + (d.publisher_name || 'Anonymous');
+    document.getElementById('deckCategory').textContent = d.category || 'General';
+
+    if (d.description && d.description.length > 0) {
+      var descEl = document.getElementById('deckDescription');
+      descEl.textContent = d.description.length > 140 ? d.description.slice(0, 137) + '…' : d.description;
+      descEl.classList.remove('hidden');
+    }
+
+    var statsText = [];
+    if (d.downloads > 0) statsText.push(d.downloads + (d.downloads === 1 ? ' download' : ' downloads'));
+    if (d.up_votes > 0) statsText.push(d.up_votes + (d.up_votes === 1 ? ' upvote' : ' upvotes'));
+    if (statsText.length > 0) {
+      document.getElementById('deckStats').textContent = statsText.join(' · ');
+    }
+
+    if (d.sample_cards && d.sample_cards.length > 0) {
+      var section = document.getElementById('sampleSection');
+      section.classList.remove('hidden');
+      var container = document.getElementById('sampleCards');
+      for (var i = 0; i < d.sample_cards.length; i++) {
+        var card = d.sample_cards[i];
+        var el = document.createElement('div');
+        el.className = 'sample-card';
+        el.innerHTML = '<p class="sample-q">Q: ' + escapeHtml(truncate(card.question, 80)) + '</p>'
+                     + '<p class="sample-a">A: ' + escapeHtml(truncate(card.answer, 80)) + '</p>';
+        container.appendChild(el);
+      }
+    }
+
+    document.getElementById('openBtn').href = link;
+
+    // Update page title
+    document.title = (d.name || 'Deck') + ' — FlashQuest';
+  }
+
+  function showError() {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('errorState').classList.remove('hidden');
+  }
+
+  function truncate(str, len) {
+    if (!str) return '';
+    return str.length > len ? str.slice(0, len - 1) + '…' : str;
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+})();
+</script>
+</body>
+</html>

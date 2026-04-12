@@ -8,7 +8,10 @@
           "/r/*",
           "/r.html*",
           "/join/*",
-          "/join.html*"
+          "/join.html*",
+          "/deck*",
+          "/deck.html*",
+          "/explore*"
         ]
       }
     ]
