@@ -92,6 +92,23 @@ body::before{
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-emoji{font-size:48px;margin-bottom:14px}
 .hidden{display:none}
+.challenge-banner{
+  background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(249,115,22,.12));
+  border:1px solid rgba(245,158,11,.25);
+  border-radius:16px;padding:18px 20px;margin-bottom:20px;
+  text-align:center;
+}
+.challenge-eyebrow{
+  font-size:10px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:#F59E0B;margin-bottom:8px;
+}
+.challenge-score{
+  font-family:'Outfit',sans-serif;font-size:36px;font-weight:900;
+  color:#FBBF24;letter-spacing:-.02em;line-height:1;margin-bottom:6px;
+}
+.challenge-hook{
+  font-size:14px;font-weight:600;color:rgba(255,255,255,.65);margin:0;
+}
 @media(max-width:480px){
   .card{padding:36px 24px;border-radius:22px}
   .title{font-size:22px}
@@ -110,6 +127,11 @@ body::before{
 
   <!-- Deck preview (shown after successful fetch) -->
   <div id="deckState" class="hidden">
+    <div id="challengeBanner" class="challenge-banner hidden">
+      <p class="challenge-eyebrow">🏆 Arena Challenge</p>
+      <p class="challenge-score" id="challengeScore"></p>
+      <p class="challenge-hook">Can you beat this score?</p>
+    </div>
     <div class="eyebrow">FlashQuest Community</div>
     <h1 class="title" id="deckName"></h1>
     <p class="meta"><span id="deckMeta"></span><span class="category-pill" id="deckCategory"></span></p>
@@ -149,6 +171,7 @@ body::before{
 
   var params = new URLSearchParams(window.location.search);
   var deckId = (params.get('id') || '').trim();
+  var challengeScore = parseInt(params.get('score') || '', 10);
 
   if (!deckId) {
     showError();
@@ -229,8 +252,16 @@ body::before{
 
     document.getElementById('openBtn').href = link;
 
-    // Update page title
-    document.title = (d.name || 'Deck') + ' — FlashQuest';
+    // Challenge banner: show score if present and valid
+    if (challengeScore > 0 && Number.isFinite(challengeScore)) {
+      document.getElementById('challengeScore').textContent = challengeScore.toLocaleString() + ' pts';
+      document.getElementById('challengeBanner').classList.remove('hidden');
+      document.getElementById('openBtn').textContent = 'Accept Challenge';
+      document.title = 'Beat ' + challengeScore + ' pts on ' + (d.name || 'this deck') + ' — FlashQuest';
+    } else {
+      // Update page title (no challenge)
+      document.title = (d.name || 'Deck') + ' — FlashQuest';
+    }
   }
 
   function showError() {
