@@ -11,7 +11,9 @@
           "/join.html*",
           "/deck*",
           "/deck.html*",
-          "/explore*"
+          "/explore*",
+          "/group/*",
+          "/group.html*"
         ]
       }
     ]
